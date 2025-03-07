@@ -1,0 +1,92 @@
+<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+
+<!-- Modal de búsqueda -->
+<div *ngIf="modalVisible" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+  <div class="bg-white w-full max-w-3xl p-6 rounded-lg shadow-lg">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center border-b pb-3">
+      <h2 class="text-xl font-semibold text-gray-700">Filtrar Transacciones</h2>
+      <button (click)="cerrarModal()" class="text-gray-500 hover:text-gray-700">
+        <i class="pi pi-times text-xl"></i>
+      </button>
+    </div>
+
+    <!-- Port ID y Folio -->
+    <div>
+      <label class="block text-gray-600">Port ID</label>
+      <input type="text" [(ngModel)]="filtroBusqueda.portId" name="portId"
+        class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
+    </div>
+
+    <div>
+      <label class="block text-gray-600">Folio</label>
+      <input type="text" [(ngModel)]="filtroBusqueda.folio" name="folio"
+        class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
+    </div>
+
+    <!-- Teléfono e ID Mensaje -->
+    <div>
+      <label class="block text-gray-600">Teléfono</label>
+      <input type="text" [(ngModel)]="filtroBusqueda.telefono" name="telefono"
+        class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
+    </div>
+    <div>
+      <label class="block text-gray-600">ID Mensaje</label>
+      <input type="text" [(ngModel)]="filtroBusqueda.idMensaje" name="idMensaje"
+        class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
+    </div>
+
+    <!-- Fechas -->
+    <div>
+      <label class="block text-gray-600">Fecha Inicio</label>
+      <p-datepicker [(ngModel)]="filtroBusqueda.fechaInicio" name="fechaInicio"
+        class="w-full border rounded-lg"></p-datepicker>
+    </div>
+
+    <div>
+      <label class="block text-gray-600">Fecha Actualización</label>
+      <p-datepicker [(ngModel)]="filtroBusqueda.fechaActualizacion" name="fechaActualizacion"
+        class="w-full border rounded-lg"></p-datepicker>
+    </div>
+
+    <!-- Estatus -->
+    <div>
+      <label class="block text-gray-600">Estatus</label>
+      <p-select [options]="estatusOptions" [(ngModel)]="filtroBusqueda.estatus" name="estatus"
+        class="w-full border rounded-lg"></p-select>
+    </div>
+
+
+    <!-- Donador y Receptor -->
+    <div>
+      <label class="block text-gray-600">Donador</label>
+      <p-select [options]="donadorOptions" [(ngModel)]="filtroBusqueda.donador" name="donador"
+        class="w-full border rounded-lg"></p-select>
+    </div>
+
+    <div>
+      <label class="block text-gray-600">Receptor</label>
+      <p-select [options]="receptorOptions" [(ngModel)]="filtroBusqueda.receptor" name="receptor"
+        class="w-full border rounded-lg"></p-select>
+    </div>
+
+  </div>
+
+  <!-- Botones -->
+  <div class="flex justify-end space-x-3 mt-5">
+    <button (click)="buscarTransacciones()"
+      class="bg-green-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700 transition duration-300">
+      <i class="pi pi-search mr-2"></i> Buscar
+    </button>
+    <button (click)="limpiarFiltros()"
+      class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-600 transition duration-300">
+      <i class="pi pi-times mr-2"></i> Limpiar
+    </button>
+    <button (click)="cerrarModal()"
+      class="bg-red-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition duration-300">
+      <i class="pi pi-times-circle mr-2"></i> Cerrar
+    </button>
+  </div>
+
+</div>

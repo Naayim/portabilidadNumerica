@@ -1,0 +1,26 @@
+.navbar {
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+  }
+  
+  .navbar-brand {
+    font-size: 1.3rem;
+  }
+  
+  .navbar-text {
+    font-size: 1.1rem;
+  }
+  
+  input.form-control {
+    width: 200px;
+  }
+  
+  .btn i {
+    font-size: 1.2rem;
+  }
+  
+  .btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }

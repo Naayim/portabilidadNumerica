@@ -1,0 +1,172 @@
+<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+<div class="max-w-7xl mx-auto my-8">
+  <div class="bg-white shadow-lg rounded-xl overflow-hidden">
+    <!-- Header -->
+    <div class="bg-blue-600 text-white px-6 py-4 flex justify-between items-center">
+      <h4 class="text-lg font-semibold">Lista de Transacciones</h4>
+      <!-- Total de registros -->
+      <span class="text-sm text-white">Total de registros: {{ totalRecords || 0 }}</span>
+    </div>
+
+    <!-- Botón para abrir filtros -->
+    <div class="p-4 flex justify-end">
+      <button class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-700" (click)="mostrarModal()">
+        Filtrar Transacciones
+      </button>
+    </div>
+
+    <!-- Modal de Filtros (se sobrepone correctamente sobre la tabla) -->
+    <div *ngIf="modalVisible" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-1/2 relative">
+        <h2 class="text-lg font-semibold mb-4">Filtros de búsqueda</h2>
+
+        <div class="grid grid-cols-2 gap-4">
+          <!-- Port ID -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Port ID</label>
+            <input type="number" [(ngModel)]="filtroBusqueda.portId"
+              class="mt-1 block w-full p-2 border rounded-md shadow-sm">
+          </div>
+
+          <!-- Folio -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Folio</label>
+            <input type="text" [(ngModel)]="filtroBusqueda.folio"
+              class="mt-1 block w-full p-2 border rounded-md shadow-sm">
+          </div>
+
+          <!-- Fecha Inicio -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Fecha Inicio</label>
+            <input type="date" [(ngModel)]="filtroBusqueda.fechaInicio"
+              class="mt-1 block w-full p-2 border rounded-md shadow-sm">
+          </div>
+
+          <!-- Fecha Actualización -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Fecha Actualización</label>
+            <input type="date" [(ngModel)]="filtroBusqueda.fechaActualizacion"
+              class="mt-1 block w-full p-2 border rounded-md shadow-sm">
+          </div>
+
+          <!-- Estatus -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Estatus</label>
+            <select [(ngModel)]="filtroBusqueda.estatus" class="mt-1 block w-full p-2 border rounded-md shadow-sm">
+              <option *ngFor="let estatus of estatusOptions" [value]="estatus.value">{{ estatus.label }}</option>
+            </select>
+          </div>
+
+          <!-- Donador -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Donador</label>
+            <select [(ngModel)]="filtroBusqueda.donador" class="mt-1 block w-full p-2 border rounded-md shadow-sm">
+              <option *ngFor="let donador of donadorOptions" [value]="donador.value">{{ donador.label }}</option>
+            </select>
+          </div>
+
+          <!-- Receptor -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Receptor</label>
+            <select [(ngModel)]="filtroBusqueda.receptor" class="mt-1 block w-full p-2 border rounded-md shadow-sm">
+              <option *ngFor="let receptor of receptorOptions" [value]="receptor.value">{{ receptor.label }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Botones del modal -->
+        <div class="flex justify-end mt-4">
+          <button class="bg-gray-400 text-white px-4 py-2 rounded-md mr-2 hover:bg-gray-500"
+            (click)="cerrarModal()">Cancelar</button>
+          <button class="bg-green-500 text-white px-4 py-2 rounded-md mr-2 hover:bg-gray-600"
+            (click)="filtrarTransacciones()">Aplicar</button>
+          <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+            (click)="limpiarFiltros()">limpiar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenido de la tabla -->
+    <div class="p-6 overflow-x-auto">
+      <p-table [value]="transactions" [loading]="loading" [rowHover]="true" [sortField]="'portId'" [sortOrder]="1"
+        styleClass="p-datatable-striped w-full">
+
+        <ng-template pTemplate="header">
+          <tr class="bg-gray-100 text-gray-700 uppercase text-sm">
+            <th pSortableColumn="portId" class="px-4 py-2 text-left">
+              Port ID
+              <p-sortIcon field="portId"></p-sortIcon>
+            </th>
+            <th class="px-4 py-2 text-left">Folio</th>
+            <th class="px-4 py-2 text-left">Proceso</th>
+            <th class="px-4 py-2 text-left">Estatus</th>
+            <th class="px-4 py-2 text-left">Fecha Inicio</th>
+            <th class="px-4 py-2 text-left">Fecha Actualización</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-transaction>
+          <tr class="border-b hover:bg-gray-100">
+            <td class="px-4 py-2 text-blue-600 font-semibold cursor-pointer" (click)="loadDetails(transaction.portId)">
+              {{ transaction.portId }}
+            </td>
+            <td class="px-4 py-2">{{ transaction.folio }}</td>
+            <td class="px-4 py-2">{{ transaction.proceso }}</td>
+            <td class="px-4 py-2">
+              <span class="px-3 py-1 text-white text-xs font-semibold rounded-full" [ngClass]="{
+                      'bg-green-500': transaction.estatus === 'COMPLETADO',
+                      'bg-red-500': transaction.estatus === 'EN PROGRESO',
+                      'bg-gray-500': !transaction.estatus
+                    }">
+                {{ transaction.estatus || 'N/A' }}
+              </span>
+            </td>
+            <td class="px-4 py-2">{{ transaction.fechaInicio | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+            <td class="px-4 py-2">{{ transaction.fechaActualizacion | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+          </tr>
+
+          <tr *ngIf="transactionDetails[transaction.portId]">
+            <td colspan="9">
+              <div class="bg-gray-50 p-4 rounded-md shadow-inner">
+                <p-table [value]="transactionDetails[transaction.portId]">
+                  <ng-template pTemplate="header">
+          <tr class="bg-gray-200 text-gray-700 text-sm">
+            <th class="px-4 py-2 text-left">Port ID</th>
+            <th class="px-4 py-2 text-left">Fecha Fase</th>
+            <th class="px-4 py-2 text-left">Teléfono</th>
+            <th class="px-4 py-2 text-left">Donador</th>
+            <th class="px-4 py-2 text-left">Receptor</th>
+            <th class="px-4 py-2 text-left">ID Mensaje</th>
+            <th class="px-4 py-2 text-left">Origen/Destino</th>
+            <th class="px-4 py-2 text-left">Código ACK</th>
+            <th class="px-4 py-2 text-left">Mensaje</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-detail>
+          <tr class="border-b">
+            <td class="px-4 py-2">{{ detail.portId }}</td>
+            <td class="px-4 py-2">{{ detail.fechaFase | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td class="px-4 py-2">{{ detail.telefono }}</td>
+            <td class="px-4 py-2">{{ detail.donadorNombre }}</td>
+            <td class="px-4 py-2">{{ detail.receptorNombre }}</td>
+            <td class="px-4 py-2">{{ detail.idMensaje }}</td>
+            <td class="px-4 py-2">{{ detail.origenDestino }}</td>
+            <td class="px-4 py-2">{{ detail.codigoAck }}</td>
+            <td class="px-4 py-2">{{ detail.xmlMessage }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    </td>
+    </tr>
+    </ng-template>
+    </p-table>
+  </div>
+
+  <!-- Paginación -->
+  <div class="p-4 border-t flex justify-center">
+    <p-paginator [rows]="pageSize" [totalRecords]="totalRecords" (onPageChange)="onPageChange($event)">
+    </p-paginator>
+  </div>
+</div>
+</div>

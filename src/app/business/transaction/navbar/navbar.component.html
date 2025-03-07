@@ -1,0 +1,52 @@
+<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+
+<nav class="bg-gray-50 shadow-md py-3 px-6">
+  <div class="container mx-auto flex justify-between items-center">
+    <!-- Logo o Nombre de la App -->
+    <a href="#" class="text-2xl font-semibold text-purple-900">
+      <i class="pi pi-database mr-2"></i> ConectividadApp
+    </a>
+
+    <!-- Menú -->
+    <div class="flex items-center space-x-6">
+      
+      <!-- Botón de Búsqueda Especializada 
+      <button (click)="activarBusqueda()" class="bg-gray-200 p-2 rounded-lg text-purple-600 hover:bg-gray-300 focus:outline-none">
+        <i class="pi pi-search">
+          <svg class="w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+          </svg>
+        </i>
+      </button>
+      -->
+
+      <!-- Botón de Refrescar -->
+      <button (click)="onRefreshClick()" class="bg-gray-200 p-2 rounded-lg text-purple-600 hover:bg-gray-300 focus:outline-none">
+        <i class="pi pi-refresh">
+          <svg class="w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+          </svg>
+        </i>
+      </button>
+
+      <!-- Cerrar Sesión -->
+      <button (click)="logout()" class="bg-gray-200 p-2 rounded-lg text-red-600 hover:bg-gray-300 focus:outline-none">
+        <i class="pi pi-power-off"></i>
+        <svg class="w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+        </svg>
+        
+      </button>
+
+      <!-- Mostrar nombre del usuario -->
+      <div class="flex items-center space-x-2">
+        <i class="pi pi-user">
+          <svg class="w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+          </svg>
+        </i>
+        <span class="text-gray-800">{{ userName }}</span>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,16 @@
+<!-- Dashboard Component -->
+<div class="dashboard-container">
+
+     <!-- Navbar Component -->
+    <app-navbar (abrirBusqueda)="abrirFiltroBusqueda()"></app-navbar>
+
+    <!-- Filtro de búsqueda (Inicialmente oculto) -->
+    <app-search-filter #searchFilter (filtrar)="filtrarTransacciones($event)"></app-search-filter>
+
+    <!-- Main Content -->
+    <div class="main-content p-6">
+        <!-- Table Component -->
+        <app-table></app-table>
+    </div>
+
+</div>

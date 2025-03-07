@@ -1,0 +1,26 @@
+.container {
+  max-width: 80%; /* La tabla solo ocupará el 80% de la pantalla */
+}
+
+.p-datatable {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.p-datatable tbody tr:hover {
+  background-color: rgba(0, 123, 255, 0.1); /* Color azul claro al pasar el mouse */
+}
+
+.card {
+  border-radius: 15px;
+}
+
+a.text-primary {
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+a.text-primary:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
